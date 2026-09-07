@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weekly Plex Media [server name] server Update</title>
+    <style>
+        :root {
+            --email-backgroung-color: #FFF8EC;
+            --header-background-color: #FEC601;
+            --poster-background-color: #DFE0DF;
+            --text-section-background-color: #DFE0DF;
+        }
+        body {
+            margin:0;
+            padding:0;
+            background-color:var(--email-backgroung-color);
+        }
+        table.container {
+            width: 100%;
+        }
+        img.plex-logo {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            scale: 50%;
+            margin-top: -10%;
+            margin-bottom: -10%;
+        }
+        img.album-cover {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            scale: 45%;
+            margin-top: -20%;
+            margin-bottom: -20%;
+        }
+        td.header {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color:var(--header-background-color);
+        }
+        td.column {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color:var(--poster-background-color);
+        }
+        td.text-section {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color:var(--text-section-background-color);
+        }
+        p.cd-title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: -5%;
+        }
+        p.overflow {
+            text-align: center;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+
+    </style>
+</head>
+<body>
+
+<table class='container' style="width:100%">
+    <!-- Logo and main header -->
+    <tr>
+        <td>
+            <table class="container">
+                <tr>
+                    <td>
+                        <img src="../assets/plex_icon.jpg" alt="Plex icon" class='plex-logo'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">
+                        <h1 style="text-align: center;">
+                            New Music have been added! Check it out!
+                        </h1>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- Music album cover section -->
+    <!-- Pick four random posters -->
+    <tr>
+        <td>
+            <table class="container">
+                <tr>
+                    <td class='column'>
+                        <img src="/assets/standard_cd_album_size.png" alt="Standard movie poster" class='album-cover'/>
+                        <p class="cd-title">
+                            Media title
+                        </p>
+                    </td>
+                    <td class='column'>
+                        <img src="../assets/standard_cd_album_size.png" alt="Standard movie poster" class='album-cover'/>
+                        <p class="cd-title">
+                            Media title
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='column'>
+                        <img src="/assets/standard_cd_album_size.png" alt="Standard movie poster" class='album-cover'/>
+                        <p class="cd-title">
+                            Media title
+                        </p>
+                    </td>
+                    <td class='column'>
+                        <img src="../assets/standard_cd_album_size.png" alt="Standard movie poster" class='album-cover'/>
+                        <p class="cd-title">
+                            Media title
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- Overflow when more than 4 movies/tv shows are added -->
+    <tr>
+        <td class="header">
+            <h1 style="text-align: center;">
+                and [quantity] more! <!-- quantity is the total minus four given we list four above -->
+            </h1>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-section">
+        <!-- Make sure to list cd album(s) in alphabetical order -->
+            <p class="overflow">
+              - CD Title, artist<br>
+              - CD Title, artist<br>
+              - CD Title, artist<br>
+              - etc.
+            </p>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

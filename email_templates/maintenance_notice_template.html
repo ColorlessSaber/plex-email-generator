@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plex Media [server name] server maintenance notice</title>
+    <style>
+        :root {
+            --email-backgroung-color: #FFF8EC;
+            --header-background-color: #FEC601;
+            --poster-background-color: #DFE0DF;
+            --text-section-background-color: #DFE0DF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--email-backgroung-color);
+        }
+
+        table.container {
+            width: 100%;
+        }
+
+        img.plex-logo {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            scale: 50%;
+            margin-top: -10%;
+            margin-bottom: -10%;
+        }
+
+        td.header {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color: var(--header-background-color);
+        }
+
+        td.text-section {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color: var(--text-section-background-color);
+        }
+
+        p.overflow {
+            text-align: center;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+
+    </style>
+</head>
+<body>
+
+<table class='container' style="width:100%">
+    <!-- Logo and main header -->
+    <tr>
+        <td>
+            <table class="container">
+                <tr>
+                    <td>
+                        <img src="../assets/plex_icon.jpg" alt="Plex icon" class='plex-logo'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">
+                        <h1 style="text-align: center;">
+                            Maintenance schedule for date: [date]
+                        </h1>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- Media that is leaving -->
+    <!-- Make the entries in each list is in alphabetical order -->
+    <tr>
+        <td class="text-section">
+            <p class="overflow">
+                The Plex Media [server name] server will be down for...
+            </p>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

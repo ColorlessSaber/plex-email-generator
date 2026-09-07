@@ -1,6 +1,3 @@
-# Project specific folders
-assets/temp_photos/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weekly Plex Media [server name] server Update</title>
+    <style>
+        :root {
+            --email-backgroung-color: #FFF8EC;
+            --header-background-color: #FEC601;
+            --poster-background-color: #DFE0DF;
+            --text-section-background-color: #DFE0DF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--email-backgroung-color);
+        }
+
+        table.container {
+            width: 100%;
+        }
+
+        img.plex-logo {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            scale: 50%;
+            margin-top: -10%;
+            margin-bottom: -10%;
+        }
+
+        td.header {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color: var(--header-background-color);
+        }
+
+        td.text-section {
+            border: solid 1px black;
+            border-radius: 15px;
+            background-color: var(--text-section-background-color);
+        }
+
+        p.overflow {
+            text-align: center;
+            font-size: 24px;
+            line-height: 1.6;
+        }
+
+    </style>
+</head>
+<body>
+
+<table class='container' style="width:100%">
+    <!-- Logo and main header -->
+    <tr>
+        <td>
+            <table class="container">
+                <tr>
+                    <td>
+                        <img src="../assets/plex_icon.jpg" alt="Plex icon" class='plex-logo'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">
+                        <h1 style="text-align: center;">
+                            The following media will be leaving the server on their designated dates.
+                        </h1>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- Media that is leaving -->
+    <!-- Make the entries in each list is in alphabetical order -->
+    <tr>
+        <td class="text-section">
+            <p class="overflow">
+                <b>~ Movies ~</b><br>
+                Movie Title - [leaving server date]<br>
+                Movie Title - [leaving server date]<br>
+                Movie Title - [leaving server date]<br>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-section">
+            <p class="overflow">
+                <b>~ TV Shows ~</b><br>
+                TV Show Title - [leaving server date]<br>
+                TV Show Title - [leaving server date]<br>
+                TV Show Title - [leaving server date]<br>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-section">
+            <p class="overflow">
+                <b>~ CD Albums ~</b><br>
+                CD Album Title - [leaving server date]<br>
+                CD Album Title - [leaving server date]<br>
+                CD Album Title - [leaving server date]<br>
+            </p>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
