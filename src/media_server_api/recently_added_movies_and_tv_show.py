@@ -1,9 +1,9 @@
 import os
+from collections.abc import Generator
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum, auto, unique
 from typing import TypeVar
-from collections.abc import Generator
 
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
@@ -28,10 +28,10 @@ class MediaItem:
     posterUrl : str
 
     def __repr__(self):
-        return "MediaItem(type={}, title={}, posterUrl={})".format(self.type, self.title, self.posterUrl)
+        return f"MediaItem(type={self.type}, title={self.title}, posterUrl={self.posterUrl})"
 
     def __str__(self):
-        return "{}".format(self.title)
+        return f"{self.title}"
 
 T = TypeVar("T") # using a generic type for the generator and return plex_api Movie or Show object
 def specified_range_movies_and_tv_show_generator() -> Generator[T]:
