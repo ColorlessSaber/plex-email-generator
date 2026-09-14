@@ -56,7 +56,7 @@ def recently_added_movies_and_tv_show(recently_added_range: RecentlyAddedRangeOp
     Pulls the recently added movie and TV shows from the plex server.
 
     :param recently_added_range: the range to be considered "recently added" movie(s) and TV show(s).
-    :return: A tuple of media and TV show(s)
+    :return: A tuple of movie(s) and TV show(s)
     """
     recently_added_media = []
 
