@@ -1,7 +1,9 @@
 import os
-import re
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum, auto, unique
+from typing import TypeVar
+from collections.abc import Generator
 
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
@@ -9,78 +11,85 @@ from plex_server_instance import PlexServerInstance
 
 
 @unique
-class RangeOptions(Enum):
-    PLEX_API = auto()
+class RecentlyAddedRangeOptions(Enum):
     DAY = auto()
+    THREE_DAYS = auto()
     WEEK = auto()
+    TWO_WEEKS = auto()
+    THREE_WEEKS = auto()
     MONTH = auto()
+    TWO_MONTHS = auto()
+    THREE_MONTHS = auto()
 
-def specified_range_movies_and_tv_show_generator(plex_instance: PlexServerInstance):
+@dataclass
+class MediaItem:
+    type : str
+    title : str
+    posterUrl : str
+
+    def __repr__(self):
+        return "MediaItem(type={}, title={}, posterUrl={})".format(self.type, self.title, self.posterUrl)
+
+    def __str__(self):
+        return "{}".format(self.title)
+
+T = TypeVar("T") # using a generic type for the generator and return plex_api Movie or Show object
+def specified_range_movies_and_tv_show_generator() -> Generator[T]:
     """
     Returns the media in the movie(s) and TV show(s) sections on the Plex server.
 
     :return:
     """
+    plex_server_instance = PlexServerInstance()
     load_dotenv()
 
     for movie_section in [os.environ.get("MOVIE_SECTION_ONE"), os.environ.get("MOVIE_SECTION_TWO")]:
-        for i in plex_instance.server_port.library.section(movie_section).all():
+        for i in plex_server_instance.server_port.library.section(movie_section).all():
             yield i
 
     for tv_show_section in [os.environ.get("TV_SHOW_SECTION_ONE"), os.environ.get("TV_SHOW_SECTION_TWO")]:
-        for i in plex_instance.server_port.library.section(tv_show_section).all():
+        for i in plex_server_instance.server_port.library.section(tv_show_section).all():
             yield i
 
-def recently_added_movies_and_tv_show(range: RangeOptions = RangeOptions.PLEX_API) -> tuple[tuple[str, str], ...]:
+def recently_added_movies_and_tv_show(recently_added_range: RecentlyAddedRangeOptions) -> tuple[MediaItem, ...]:
     """
-    Pulls the recently added movie and TV shows from the plex server. Default is using Plex's recentlyAdded API.
+    Pulls the recently added movie and TV shows from the plex server.
 
-    range: Specify a different range to be considered recently added than Plex's recentlyAdded API.
-    :return:
+    :param recently_added_range: the range to be considered "recently added" movie(s) and TV show(s).
+    :return: A tuple of media and TV show(s)
     """
-    plex_server_instance = PlexServerInstance()
-
-    # Pull in the recently added contented from the movie and TV show sections; get the media title of each new content
-    # along with their poster, if they have one. The end returned structure is a tuple with a sub-tuple containing: (media tile, poster url).
-    #
-    # Given the structure of the return object need to detect entries that are TV versus movies
-    # because the TV show entry stores the name in parentTitle while Title is the season folder name.
     recently_added_media = []
-    if range == RangeOptions.PLEX_API:
-        for media_entry in plex_server_instance.server_port.library.recentlyAdded():
 
-            # Use .librarySectionTitle to determine if the entry is a movie or TV show
-            if 'Movies' in media_entry.librarySectionTitle:
-                print(f"library section title: {media_entry.librarySectionTitle}, title: {media_entry.title}; date added: {media_entry.addedAt}")
-            elif 'TV Shows' in media_entry.librarySectionTitle:
-                if 'Specials' in media_entry.title:
-                    season_text = media_entry.title
-                else:
-                    season_text = re.split(r'\s', media_entry.title)[1]
-                print(f"library section title: {media_entry.librarySectionTitle}, title: {media_entry.parentTitle}, season: {season_text}; date added: {media_entry.addedAt}")
-    else:
-        # subtract the specified value in the given range from the current date to create a cutoff date when filtering
-        # through the media
-        timezone = datetime.now().astimezone().tzinfo
-        match range:
-            case RangeOptions.DAY:
-                cutoff_date = datetime.now(tz=timezone) - relativedelta(days=1)
-            case RangeOptions.WEEK:
-                cutoff_date = datetime.now(tz=timezone) - relativedelta(weeks=1)
-            case RangeOptions.MONTH:
-                cutoff_date = datetime.now(tz=timezone) - relativedelta(months=1)
+    # Calculate the cutoff_date to filter media that have been added afterward.
+    #
+    # Cannot specify a timezone for Plex uses an offset-native date times.
+    match recently_added_range:
+        case RecentlyAddedRangeOptions.DAY:
+            cutoff_date = datetime.now() - relativedelta(days=1)
+        case RecentlyAddedRangeOptions.THREE_DAYS:
+            cutoff_date = datetime.now() - relativedelta(days=3)
+        case RecentlyAddedRangeOptions.WEEK:
+            cutoff_date = datetime.now() - relativedelta(weeks=1)
+        case RecentlyAddedRangeOptions.TWO_WEEKS:
+            cutoff_date = datetime.now() - relativedelta(weeks=2)
+        case RecentlyAddedRangeOptions.THREE_WEEKS:
+            cutoff_date = datetime.now() - relativedelta(weeks=3)
+        case RecentlyAddedRangeOptions.MONTH:
+            cutoff_date = datetime.now() - relativedelta(months=1)
+        case RecentlyAddedRangeOptions.TWO_MONTHS:
+            cutoff_date = datetime.now() - relativedelta(months=2)
+        case RecentlyAddedRangeOptions.THREE_MONTHS:
+            cutoff_date = datetime.now() - relativedelta(months=3)
 
-        for media_entry in specified_range_movies_and_tv_show_generator(plex_server_instance):
-            # Use .librarySectionTitle to determine if the entry is a movie or TV show
-            if media_entry.addedAt > cutoff_date:
-                if 'Movies' in media_entry.librarySectionTitle:
-                    print(f"library section title: {media_entry.librarySectionTitle}, title: {media_entry.title}; date added: {media_entry.addedAt}")
-                elif 'TV Shows' in media_entry.librarySectionTitle:
-                    if 'Specials' in media_entry.title:
-                        season_text = media_entry.title
-                    else:
-                        season_text = re.split(r'\s', media_entry.title)[1]
-                    print(f"library section title: {media_entry.librarySectionTitle}, title: {media_entry.title}, season: {season_text}; date added: {media_entry.addedAt}")
+    # filter out the media on the server that don't meet the cutoff date requirements. From each media that pass
+    # pull the title, posterUrl, and TYPE (i.e., movie or TV show) and save it to the MediaItem dataclass.
+    for media_entry in specified_range_movies_and_tv_show_generator():
+        if media_entry.addedAt > cutoff_date.replace(microsecond=0): # removed microseconds given Plex datetime only goes down to the second
+            recently_added_media.append(MediaItem(media_entry.TYPE, media_entry.title, media_entry.posterUrl))
 
+    return tuple(recently_added_media)
+
+# use for testing given cannot write unit test code
 if __name__ == "__main__":
-    recently_added_movies_and_tv_show(range=RangeOptions.MONTH)
+    bar = recently_added_movies_and_tv_show(RecentlyAddedRangeOptions.THREE_MONTHS)
+    print(bar)
