@@ -1,5 +1,6 @@
-import requests
 from pathlib import Path
+
+import requests
 
 from ..config import POSTERS_DIR
 from .recently_added_movies_and_tv_show import MediaItem

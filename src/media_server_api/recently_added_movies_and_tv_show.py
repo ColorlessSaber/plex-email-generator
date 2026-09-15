@@ -1,3 +1,5 @@
+# ruff: noqa: DTZ005
+## Cannot specify a timezone for Plex uses an offset-native date times.
 import os
 from collections.abc import Generator
 from dataclasses import dataclass
