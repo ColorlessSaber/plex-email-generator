@@ -7,7 +7,8 @@ from typing import TypeVar
 
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
-from plex_server_instance import PlexServerInstance
+
+from .plex_server_instance import PlexServerInstance
 
 
 @unique

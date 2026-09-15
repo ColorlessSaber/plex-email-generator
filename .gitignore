@@ -1,3 +1,6 @@
+# folders related to the project structure
+data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
