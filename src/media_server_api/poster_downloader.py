@@ -19,7 +19,7 @@ def poster_downloader(posters_to_download: tuple[MediaItem, ...]) -> None:
     # has already been downloaded. If so skip it and move onto the next poster to download
     for media_item in posters_to_download:
         if not (POSTERS_DIR / f"{media_item.title}.jpg").is_file():
-            response = requests.get(media_item.posterUrl, stream=True)
+            response = requests.get(media_item.poster_url, stream=True)
             if response.status_code == 200:
                 with open(POSTERS_DIR / f"{media_item.title}.jpg", 'wb') as file:
                     file.write(response.content)

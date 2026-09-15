@@ -26,12 +26,24 @@ class RecentlyAddedRangeOptions(Enum):
 
 @dataclass
 class MediaItem:
-    type : str
-    title : str
-    posterUrl : str
+    __type : str
+    __title : str
+    __poster_url : str
+
+    @property
+    def type(self) -> str:
+        return self.__type
+
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @property
+    def poster_url(self) -> str:
+        return self.__poster_url
 
     def __repr__(self):
-        return f"MediaItem(type={self.type}, title={self.title}, posterUrl={self.posterUrl})"
+        return f"MediaItem(type={self.type}, title={self.title}, posterUrl={self.poster_url})"
 
     def __str__(self):
         return f"{self.title}"
