@@ -5,7 +5,7 @@
     <title>Weekly Plex Media [server name] server Update</title>
     <style>
         :root {
-            --email-backgroung-color: #FFF8EC;
+            --email-background-color: #FFF8EC;
             --header-background-color: #FEC601;
             --poster-background-color: #DFE0DF;
             --text-section-background-color: #DFE0DF;
@@ -13,7 +13,7 @@
         body {
             margin:0;
             padding:0;
-            background-color:var(--email-backgroung-color);
+            background-color:var(--email-background-color);
         }
         table.container {
             width: 100%;
@@ -49,6 +49,9 @@
             border-radius: 15px;
             background-color:var(--text-section-background-color);
         }
+        h1 {
+            text-align: center;
+        }
         p.cd-title {
             text-align: center;
             font-size: 30px;
@@ -65,7 +68,7 @@
 </head>
 <body>
 
-<table class='container' style="width:100%">
+<table class='container'>
     <!-- Logo and main header -->
     <tr>
         <td>
@@ -77,7 +80,7 @@
                 </tr>
                 <tr>
                     <td class="header">
-                        <h1 style="text-align: center;">
+                        <h1>
                             New Music have been added! Check it out!
                         </h1>
                     </td>
@@ -124,7 +127,7 @@
     <!-- Overflow when more than 4 movies/tv shows are added -->
     <tr>
         <td class="header">
-            <h1 style="text-align: center;">
+            <h1>
                 and [quantity] more! <!-- quantity is the total minus four given we list four above -->
             </h1>
         </td>
