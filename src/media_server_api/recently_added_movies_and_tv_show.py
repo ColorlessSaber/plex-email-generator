@@ -24,11 +24,12 @@ class RecentlyAddedRangeOptions(Enum):
     TWO_MONTHS = auto()
     THREE_MONTHS = auto()
 
+
 @dataclass
 class MediaItem:
-    __type : str
-    __title : str
-    __poster_url : str
+    __type: str
+    __title: str
+    __poster_url: str
 
     @property
     def type(self) -> str:
@@ -49,6 +50,7 @@ class MediaItem:
         return f"{self.title}"
 
 T = TypeVar("T") # using a generic type for the generator and return plex_api Movie or Show object
+
 def specified_range_movies_and_tv_show_generator() -> Generator[T]:
     """
     Returns the media in the movie(s) and TV show(s) sections on the Plex server.
@@ -58,15 +60,24 @@ def specified_range_movies_and_tv_show_generator() -> Generator[T]:
     plex_server_instance = PlexServerInstance()
     load_dotenv()
 
-    for movie_section in [os.environ.get("MOVIE_SECTION_ONE"), os.environ.get("MOVIE_SECTION_TWO")]:
+    for movie_section in [
+        os.environ.get("MOVIE_SECTION_ONE"),
+        os.environ.get("MOVIE_SECTION_TWO"),
+    ]:
         for i in plex_server_instance.server_port.library.section(movie_section).all():
             yield i
 
-    for tv_show_section in [os.environ.get("TV_SHOW_SECTION_ONE"), os.environ.get("TV_SHOW_SECTION_TWO")]:
+    for tv_show_section in [
+        os.environ.get("TV_SHOW_SECTION_ONE"),
+        os.environ.get("TV_SHOW_SECTION_TWO"),
+    ]:
         for i in plex_server_instance.server_port.library.section(tv_show_section).all():
             yield i
 
-def recently_added_movies_and_tv_show(recently_added_range: RecentlyAddedRangeOptions) -> tuple[MediaItem, ...]:
+
+def recently_added_movies_and_tv_show(
+    recently_added_range: RecentlyAddedRangeOptions,
+) -> tuple[MediaItem, ...]:
     """
     Pulls the recently added movie and TV shows from the plex server.
 
@@ -99,10 +110,13 @@ def recently_added_movies_and_tv_show(recently_added_range: RecentlyAddedRangeOp
     # filter out the media on the server that don't meet the cutoff date requirements. From each media that pass
     # pull the title, posterUrl, and TYPE (i.e., movie or TV show) and save it to the MediaItem dataclass.
     for media_entry in specified_range_movies_and_tv_show_generator():
-        if media_entry.addedAt > cutoff_date.replace(microsecond=0): # removed microseconds given Plex datetime only goes down to the second
-            recently_added_media.append(MediaItem(media_entry.TYPE, media_entry.title, media_entry.posterUrl))
+        if media_entry.addedAt > cutoff_date.replace(microsecond=0):  # removed microseconds given Plex datetime only goes down to the second
+            recently_added_media.append(
+                MediaItem(media_entry.TYPE, media_entry.title, media_entry.posterUrl)
+            )
 
     return tuple(recently_added_media)
+
 
 # use for testing given cannot write unit test code
 if __name__ == "__main__":
