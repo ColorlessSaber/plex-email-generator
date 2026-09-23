@@ -10,8 +10,8 @@ def poster_downloader(posters_to_download: tuple[MediaItem, ...]) -> None:
     """
     Downloads poster images from Plex server from the given list of poster urls.
 
-    :param posters_to_download: the list of poster urls to be downloaded.
-    :return:
+    Parameters:
+        posters_to_download: the list of poster urls to be downloaded.
     """
     Path(POSTERS_DIR).mkdir(
         parents=True, exist_ok=True

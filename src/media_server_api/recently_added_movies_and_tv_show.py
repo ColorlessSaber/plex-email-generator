@@ -27,6 +27,14 @@ class RecentlyAddedRangeOptions(Enum):
 
 @dataclass
 class MediaItem:
+    """
+    Object that represents a media item.
+
+    Attributes:
+        __type: The type of the media item--show or movie.
+        __title: The title of the media item.
+        __poster_url: The URL for the poster of the media item.
+    """
     __type: str
     __title: str
     __poster_url: str
@@ -55,7 +63,8 @@ def specified_range_movies_and_tv_show_generator() -> Generator[T]:
     """
     Returns the media in the movie(s) and TV show(s) sections on the Plex server.
 
-    :return:
+    Returns:
+        A generator of either movie(s) or TV show(s)
     """
     plex_server_instance = PlexServerInstance()
     load_dotenv()
@@ -81,8 +90,11 @@ def recently_added_movies_and_tv_show(
     """
     Pulls the recently added movie and TV shows from the plex server.
 
-    :param recently_added_range: the range to be considered "recently added" movie(s) and TV show(s).
-    :return: A tuple of movie(s) and TV show(s)
+    Parameters:
+        recently_added_range: the range to be considered "recently added" movie(s) and TV show(s).
+
+    Returns:
+        A tuple of movie(s) and TV show(s)
     """
     recently_added_media = []
 

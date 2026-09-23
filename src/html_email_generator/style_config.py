@@ -57,7 +57,7 @@ class StyleConfigBuilder(RequiredStyleConfigAttrsMixin):
         return style_config
 
 
-# Attributes that have double-underscores defines the start of the selector class.
+# The style configs that have double-underscores defines the start of the selector class.
 # Example: P__MEDIA_TITLES, p is the tag and media-titles is the selector class.
 ROOT = StyleConfigBuilder(
     tag=":root",
