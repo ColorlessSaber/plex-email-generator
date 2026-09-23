@@ -1,5 +1,5 @@
 # ruff: noqa: DTZ005
-## Cannot specify a timezone for Plex uses an offset-native date times.
+## Cannot specify a timezone for Plex doesn't specify a timezone
 import os
 from collections.abc import Generator
 from dataclasses import dataclass
@@ -15,15 +15,24 @@ from .plex_server_instance import PlexServerInstance
 
 @unique
 class RecentlyAddedRangeOptions(Enum):
-    DAY = auto()
-    THREE_DAYS = auto()
-    WEEK = auto()
-    TWO_WEEKS = auto()
-    THREE_WEEKS = auto()
-    MONTH = auto()
-    TWO_MONTHS = auto()
-    THREE_MONTHS = auto()
+    ONE_DAY = relativedelta(days=1)
+    THREE_DAYS = relativedelta(days=3)
+    ONE_WEEK = relativedelta(weeks=1)
+    TWO_WEEKS = relativedelta(weeks=2)
+    THREE_WEEKS = relativedelta(weeks=3)
+    ONE_MONTH = relativedelta(months=1)
+    TWO_MONTHS = relativedelta(months=2)
+    THREE_MONTHS = relativedelta(months=3)
 
+    def __sub__(self, other):
+        if isinstance(other, relativedelta | datetime):
+            return self.value - other
+        return NotImplemented
+
+    def __rsub__(self, other):
+        if isinstance(other, relativedelta | datetime):
+            return other - self.value
+        return NotImplemented
 
 @dataclass
 class MediaItem:
@@ -100,24 +109,8 @@ def recently_added_movies_and_tv_show(
 
     # Calculate the cutoff_date to filter media that have been added afterward.
     #
-    # Cannot specify a timezone for Plex uses an offset-native date times.
-    match recently_added_range:
-        case RecentlyAddedRangeOptions.DAY:
-            cutoff_date = datetime.now() - relativedelta(days=1)
-        case RecentlyAddedRangeOptions.THREE_DAYS:
-            cutoff_date = datetime.now() - relativedelta(days=3)
-        case RecentlyAddedRangeOptions.WEEK:
-            cutoff_date = datetime.now() - relativedelta(weeks=1)
-        case RecentlyAddedRangeOptions.TWO_WEEKS:
-            cutoff_date = datetime.now() - relativedelta(weeks=2)
-        case RecentlyAddedRangeOptions.THREE_WEEKS:
-            cutoff_date = datetime.now() - relativedelta(weeks=3)
-        case RecentlyAddedRangeOptions.MONTH:
-            cutoff_date = datetime.now() - relativedelta(months=1)
-        case RecentlyAddedRangeOptions.TWO_MONTHS:
-            cutoff_date = datetime.now() - relativedelta(months=2)
-        case RecentlyAddedRangeOptions.THREE_MONTHS:
-            cutoff_date = datetime.now() - relativedelta(months=3)
+    # Cannot specify a timezone for Plex doesn't specify a timezone
+    cutoff_date = datetime.now() - recently_added_range
 
     # filter out the media on the server that don't meet the cutoff date requirements. From each media that pass
     # pull the title, posterUrl, and TYPE (i.e., movie or TV show) and save it to the MediaItem dataclass.
