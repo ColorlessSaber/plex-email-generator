@@ -18,7 +18,7 @@ __all__ = [
     'TD__TEXT_SECTION',
 ]
 
-from .style_config import (
+from src.html_email_generator.style_config import (
     BODY,
     H_ONE,
     IMG__ALBUM_COVER,

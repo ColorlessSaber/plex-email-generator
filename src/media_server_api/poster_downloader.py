@@ -2,8 +2,8 @@ from pathlib import Path
 
 import requests
 
-from ..config import POSTERS_DIR
-from .recently_added_movies_and_tv_show import MediaItem
+from src.config import POSTERS_DIR
+from src.media_server_api.recently_added_movies_and_tv_show import MediaItem
 
 
 def poster_downloader(posters_to_download: tuple[MediaItem, ...]) -> None:

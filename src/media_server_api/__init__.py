@@ -8,8 +8,8 @@ __all__ = [
     "recently_added_movies_and_tv_show",
 ]
 
-from .poster_downloader import poster_downloader
-from .recently_added_movies_and_tv_show import (
+from src.media_server_api.poster_downloader import poster_downloader
+from src.media_server_api.recently_added_movies_and_tv_show import (
     RecentlyAddedRangeOptions,
     recently_added_movies_and_tv_show,
 )

@@ -4,7 +4,7 @@ import os
 from collections.abc import Generator
 from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum, auto, unique
+from enum import Enum, unique
 from typing import TypeVar
 
 from dateutil.relativedelta import relativedelta
