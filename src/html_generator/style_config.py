@@ -47,7 +47,7 @@ class StyleConfigBuilder(RequiredStyleConfigAttrsMixin):
                 if self.tag == ":root": key = "--" + key # turn key into a variable
                 attr_value = f"var({value})" if value.startswith("--") else value # handle CSS variables
                 attr_value = attr_value.replace("_", "-")
-                yield f"{key}: {attr_value}"
+                yield f"{key}: {attr_value};"
 
         yield "}"
 
@@ -61,7 +61,7 @@ class StyleConfigBuilder(RequiredStyleConfigAttrsMixin):
                 if self.tag == ":root": key = "--" + key # turn key into a variable
                 attr_value = f"var({value})" if value.startswith("--") else value # handle CSS variables
                 attr_value = attr_value.replace("_", "-")
-                style_config += f"{key}: {attr_value}\n"
+                style_config += f"{key}: {attr_value};\n"
 
         style_config += "}"
 
@@ -147,8 +147,8 @@ TD__TEXT_SECTION = StyleConfigBuilder(
 # ~~ img tag style configs ~~
 
 IMG__PLEX_LOGO = StyleConfigBuilder(
-    tag="table",
-    selector_class="container",
+    tag="img",
+    selector_class="plex-logo",
     width="100%",
     height="auto",
     border_radius="30px",

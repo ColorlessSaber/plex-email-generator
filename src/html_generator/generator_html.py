@@ -99,11 +99,23 @@ def generator_html(
         )
 
         # Loop through the styles to be added to the HTML file based on the html_type.
-        styles_to_print = html_type.styles_for_type()
-        for style_entry in styles_to_print:
+        white_space_indent_count += html_config.white_space_indent
+        for style_entry in html_type.styles_for_type():
             for line_item in style_entry:
-                print(line_item)
+                if any(i in line_item for i in ['{', '}']): # The start and end of a style entry
+                    write_to_html_file(
+                        file,
+                        white_space_indent_count,
+                        line_item
+                    )
+                else:
+                    write_to_html_file(
+                        file,
+                        white_space_indent_count + html_config.white_space_indent,
+                        line_item
+                    )
 
+        white_space_indent_count -= html_config.white_space_indent
         write_to_html_file(
             file,
             white_space_indent_count,
@@ -113,5 +125,5 @@ def generator_html(
 if __name__ == '__main__':
     generator_html(
         HtmlConfig(server_name='Admin'),
-        HtmlType.MAINTENANCE,
+        HtmlType.NEW_MOVIE_TV_SHOW,
     )
