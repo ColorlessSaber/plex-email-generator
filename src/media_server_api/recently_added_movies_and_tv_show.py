@@ -10,7 +10,7 @@ from typing import TypeVar
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 
-from .plex_server_instance import PlexServerInstance
+from src.media_server_api.plex_server_instance import PlexServerInstance
 
 
 @unique
@@ -40,25 +40,25 @@ class MediaItem:
     Object that represents a media item.
 
     Attributes:
-        __type: The type of the media item--show or movie.
-        __title: The title of the media item.
-        __poster_url: The URL for the poster of the media item.
+        _type: The type of the media item--show or movie.
+        _title: The title of the media item.
+        _poster_url: The URL for the poster of the media item.
     """
-    __type: str
-    __title: str
-    __poster_url: str
+    _type: str
+    _title: str
+    _poster_url: str
 
     @property
     def type(self) -> str:
-        return self.__type
+        return self._type
 
     @property
     def title(self) -> str:
-        return self.__title
+        return self._title
 
     @property
     def poster_url(self) -> str:
-        return self.__poster_url
+        return self._poster_url
 
     def __repr__(self):
         return f"MediaItem(type={self.type}, title={self.title}, posterUrl={self.poster_url})"
