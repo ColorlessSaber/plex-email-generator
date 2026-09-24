@@ -1,12 +1,14 @@
+import os
+from datetime import datetime
 from io import TextIOWrapper
 from pathlib import Path
-
-from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from src.config import HTML_DIR
-from src.html_generator.html_type_enum import HtmlType
 from src.html_generator.html_config import HtmlConfig
+from src.html_generator.html_type_enum import HtmlType
 from src.media_server_api.recently_added_movies_and_tv_show import MediaItem
+
 
 def write_to_html_file(html_file: TextIOWrapper, space_indent_count: int, content: str) -> None:
     """
@@ -49,7 +51,8 @@ def generator_html(
     #
     # During the process of generating the email the white space count has to be tracked; IE, is it time
     # to indent up or done. The starting value is what is specified in the html_config.
-    html_file_name = html_type.value + datetime.today().strftime('__%Y_%m_%d') + ".html"
+    time_zone = ZoneInfo(os.environ.get('TZ', 'UTC'))
+    html_file_name = html_type.value + datetime.now(tz=time_zone).strftime('__%Y_%m_%d') + ".html"
     white_space_indent_count = html_config.white_space_indent
 
     with open(HTML_DIR / html_file_name, "w", encoding=html_config.charset) as file:

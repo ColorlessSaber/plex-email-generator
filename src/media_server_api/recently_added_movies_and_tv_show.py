@@ -9,8 +9,9 @@ from dotenv import load_dotenv
 
 from src.media_server_api.media_item import MediaItem
 from src.media_server_api.plex_server_instance import PlexServerInstance
-from src.media_server_api.recently_added_range_options_enum import RecentlyAddedRangeOptions
-
+from src.media_server_api.recently_added_range_options_enum import (
+    RecentlyAddedRangeOptions,
+)
 
 _T = TypeVar("_T") # using a generic type for the generator for it can return plex_api Movie or Show object
 

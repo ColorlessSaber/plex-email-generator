@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
+
 class HtmlLanguage(StrEnum):
     ENGLISH = 'en'
     GERMAN = 'de'

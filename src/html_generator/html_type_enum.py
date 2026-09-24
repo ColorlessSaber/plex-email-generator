@@ -1,4 +1,4 @@
-from enum import StrEnum, unique, auto
+from enum import StrEnum, auto, unique
 
 from src.html_generator.style_config import (
     BODY,
