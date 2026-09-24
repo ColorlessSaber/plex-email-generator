@@ -1,90 +1,12 @@
 from io import TextIOWrapper
 from pathlib import Path
 
-from dataclasses import dataclass
 from datetime import datetime
-from enum import StrEnum, unique, auto
 
 from src.config import HTML_DIR
+from src.html_generator.html_type_enum import HtmlType
+from src.html_generator.html_config import HtmlConfig
 from src.media_server_api.recently_added_movies_and_tv_show import MediaItem
-from src.html_generator.style_config import (
-    BODY,
-    H_ONE,
-    IMG__ALBUM_COVER,
-    IMG__PLEX_LOGO,
-    IMG__POSTER,
-    P__CD_TITLE,
-    P__MEDIA_TITLES,
-    P__OVERFLOW,
-    ROOT,
-    TABLE__CONTAINER,
-    TD__COLUMN,
-    TD__HEADER,
-    TD__TEXT_SECTION,
-    StyleConfigBuilder,
-)
-
-# group the style into groups
-BASE_STYLE = [ROOT, BODY]
-COMMON_STYLES = [
-    TABLE__CONTAINER,
-    IMG__PLEX_LOGO,
-    TD__HEADER,
-    TD__TEXT_SECTION,
-    H_ONE,
-    P__OVERFLOW,
-]
-
-@unique
-class HtmlType(StrEnum):
-    MAINTENANCE = auto()
-    MEDIA_LEAVING = auto()
-    NEW_MOVIE_TV_SHOW = auto()
-    NEW_MUSIC = auto()
-
-    def styles_for_type(self) -> list[StyleConfigBuilder]:
-        """
-        Returns a list of styles that needed for the HTML type.
-
-        Returns:
-            List of StyleConfigBuilder objects.
-        """
-        match self.value:
-            case self.MAINTENANCE | self.MEDIA_LEAVING:
-                return BASE_STYLE + COMMON_STYLES
-            case self.NEW_MOVIE_TV_SHOW:
-                return BASE_STYLE + COMMON_STYLES + [IMG__POSTER, P__MEDIA_TITLES, TD__COLUMN]
-            case self.NEW_MUSIC:
-                return BASE_STYLE + COMMON_STYLES + [IMG__ALBUM_COVER, P__CD_TITLE, TD__COLUMN]
-            case _: # not needed but necessary to stop it from throwing a warning
-                return BASE_STYLE + COMMON_STYLES
-
-class HtmlLanguage(StrEnum):
-    ENGLISH = 'en'
-    GERMAN = 'de'
-    JAPANESE = 'ja'
-
-class HtmlCharSet(StrEnum):
-    UTF8 = 'utf-8'
-
-@dataclass
-class HtmlConfig:
-    """
-    Holds the HTML configuration for the HTML generator.
-
-    Default is: english for language, UTF-8 for charset, 2 white spaces,
-    and blank for server name.
-
-    Parameters:
-        language: What language to generate HTML for.
-        charset: What charset to generate HTML for.
-        white_space_indent: How many white spaces to indent HTML chars with.
-        server_name: The name of the Plex server.
-    """
-    language: HtmlLanguage = HtmlLanguage.ENGLISH
-    charset: HtmlCharSet = HtmlCharSet.UTF8
-    white_space_indent: int = 2
-    server_name: str | None = None
 
 def write_to_html_file(html_file: TextIOWrapper, space_indent_count: int, content: str) -> None:
     """
@@ -178,6 +100,9 @@ def generator_html(
 
         # Loop through the styles to be added to the HTML file based on the html_type.
         styles_to_print = html_type.styles_for_type()
+        for style_entry in styles_to_print:
+            for line_item in style_entry:
+                print(line_item)
 
         write_to_html_file(
             file,
