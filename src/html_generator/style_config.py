@@ -36,6 +36,21 @@ class StyleConfigBuilder(RequiredStyleConfigAttrsMixin):
                     self, key, str(value)
                 )  # want each entry to be a string. Makes it easier to handle
 
+    def __iter__(self):
+        selector_class = f".{self.selector_class}" if self.selector_class else ""
+        style_config = f"{self.tag}{selector_class}" + " {"
+        yield style_config
+
+        for key, value in vars(self).items():
+            if key not in self.__slots__:
+                key = key.replace("_", "-")
+                if self.tag == ":root": key = "--" + key # turn key into a variable
+                attr_value = f"var({value})" if value.startswith("--") else value # handle CSS variables
+                attr_value = attr_value.replace("_", "-")
+                yield f"{key}: {attr_value}"
+
+        yield "}"
+
     def __str__(self) -> str:
         selector_class = f".{self.selector_class}" if self.selector_class else ""
         style_config = f"{self.tag}{selector_class}" + " {\n"
@@ -43,12 +58,8 @@ class StyleConfigBuilder(RequiredStyleConfigAttrsMixin):
         for key, value in vars(self).items():
             if key not in self.__slots__:
                 key = key.replace("_", "-")
-                if self.tag == ":root":  # turn key into a variable
-                    key = "--" + key
-
-                attr_value = (
-                    f"var({value})" if value.startswith("--") else value
-                )  # handle CSS variables
+                if self.tag == ":root": key = "--" + key # turn key into a variable
+                attr_value = f"var({value})" if value.startswith("--") else value # handle CSS variables
                 attr_value = attr_value.replace("_", "-")
                 style_config += f"{key}: {attr_value}\n"
 
@@ -127,7 +138,7 @@ TD__COLUMN = StyleConfigBuilder(
 )
 TD__TEXT_SECTION = StyleConfigBuilder(
     tag="td",
-    selector_class="column",
+    selector_class="text-section",
     border="solid 1px black",
     border_radius="15px",
     background_color="--text-section-background-color",
