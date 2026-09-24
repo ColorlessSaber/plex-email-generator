@@ -2,73 +2,19 @@
 ## Cannot specify a timezone for Plex doesn't specify a timezone
 import os
 from collections.abc import Generator
-from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum, unique
 from typing import TypeVar
 
-from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 
+from src.media_server_api.media_item import MediaItem
 from src.media_server_api.plex_server_instance import PlexServerInstance
+from src.media_server_api.recently_added_range_options_enum import RecentlyAddedRangeOptions
 
 
-@unique
-class RecentlyAddedRangeOptions(Enum):
-    ONE_DAY = relativedelta(days=1)
-    THREE_DAYS = relativedelta(days=3)
-    ONE_WEEK = relativedelta(weeks=1)
-    TWO_WEEKS = relativedelta(weeks=2)
-    THREE_WEEKS = relativedelta(weeks=3)
-    ONE_MONTH = relativedelta(months=1)
-    TWO_MONTHS = relativedelta(months=2)
-    THREE_MONTHS = relativedelta(months=3)
+_T = TypeVar("_T") # using a generic type for the generator for it can return plex_api Movie or Show object
 
-    def __sub__(self, other):
-        if isinstance(other, relativedelta | datetime):
-            return self.value - other
-        return NotImplemented
-
-    def __rsub__(self, other):
-        if isinstance(other, relativedelta | datetime):
-            return other - self.value
-        return NotImplemented
-
-@dataclass
-class MediaItem:
-    """
-    Object that represents a media item.
-
-    Attributes:
-        _type: The type of the media item--show or movie.
-        _title: The title of the media item.
-        _poster_url: The URL for the poster of the media item.
-    """
-    _type: str
-    _title: str
-    _poster_url: str
-
-    @property
-    def type(self) -> str:
-        return self._type
-
-    @property
-    def title(self) -> str:
-        return self._title
-
-    @property
-    def poster_url(self) -> str:
-        return self._poster_url
-
-    def __repr__(self):
-        return f"MediaItem(type={self.type}, title={self.title}, posterUrl={self.poster_url})"
-
-    def __str__(self):
-        return f"{self.title}"
-
-T = TypeVar("T") # using a generic type for the generator and return plex_api Movie or Show object
-
-def specified_range_movies_and_tv_show_generator() -> Generator[T]:
+def specified_range_movies_and_tv_show_generator() -> Generator[_T]:
     """
     Returns the media in the movie(s) and TV show(s) sections on the Plex server.
 
