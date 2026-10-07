@@ -12,7 +12,7 @@ from src.media_server_api.recently_added_movies_and_tv_show import MediaItem
 
 def write_to_html_file(html_file: TextIOWrapper, space_indent_count: int, content: str) -> None:
     """
-    Writes the HTML content to a file. It handles adding the space indents and writing a newline.
+    Writes the HTML content to the file provided. It handles adding the space indents and adding the carriage return.
 
     Parameters:
         html_file: HTML file to be written.
@@ -123,6 +123,43 @@ def generator_html(
             file,
             white_space_indent_count,
             '</style>'
+        )
+
+        write_to_html_file(
+            file,
+            0,
+            '</head>'
+        )
+        write_to_html_file(
+            file,
+            0,
+            '<body>'
+        )
+        write_to_html_file(
+            file,
+            0,
+            '<table class=\'container\'>'
+        )
+
+        # Generate the content within the <body> tag
+        ## Generate the logo and the main header
+        white_space_indent_count += html_config.white_space_indent
+        # TODO add in the code to generate the body of the HTML based on the html_type
+
+        write_to_html_file(
+            file,
+            0,
+            '</table>'
+        )
+        write_to_html_file(
+            file,
+            0,
+            '</body>'
+        )
+        write_to_html_file(
+            file,
+            0,
+            '</html>'
         )
 
 if __name__ == '__main__':
