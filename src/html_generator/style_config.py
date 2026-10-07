@@ -8,10 +8,10 @@ from src.html_generator.css_rule_object.css_rule import CSSRule
 ROOT = CSSRule(
     selector=":root",
     properties={
-        "email-background-color": "#FFF8EC",
-        "header-background-color": "#FEC601",
-        "poster-background-color": "#DFE0DF",
-        "text-section-background-color": "#DFE0DF",
+        "--email-background-color": "#FFF8EC",
+        "--header-background-color": "#FEC601",
+        "--poster-background-color": "#DFE0DF",
+        "--text-section-background-color": "#DFE0DF",
     }
 )
 
@@ -41,7 +41,7 @@ P__MEDIA_TITLES = CSSRule(
     }
 )
 
-P__CD_TITLES = CSSRule(
+P__CD_TITLE = CSSRule(
     selector="p.cd-title",
     properties={
         "text-align": "center",

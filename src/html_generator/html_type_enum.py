@@ -1,5 +1,6 @@
 from enum import StrEnum, auto, unique
 
+from src.html_generator.css_rule_object.css_rule import CSSRule
 from src.html_generator.style_config import (
     BODY,
     H_ONE,
@@ -14,7 +15,6 @@ from src.html_generator.style_config import (
     TD__COLUMN,
     TD__HEADER,
     TD__TEXT_SECTION,
-    StyleConfigBuilder,
 )
 
 # group the style into groups
@@ -35,7 +35,7 @@ class HtmlType(StrEnum):
     NEW_MOVIE_TV_SHOW = auto()
     NEW_MUSIC = auto()
 
-    def styles_for_type(self) -> list[StyleConfigBuilder]:
+    def styles_for_type(self) -> list[CSSRule]:
         """
         Returns a list of styles that needed for the HTML type.
 
