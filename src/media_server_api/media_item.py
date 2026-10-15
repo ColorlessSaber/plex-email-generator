@@ -28,7 +28,7 @@ class MediaItem:
         return self._poster_url
 
     def __repr__(self):
-        return f"MediaItem(type={self.type}, title={self.title}, posterUrl={self.poster_url})"
+        return f"MediaItem(\n\ttype={self.type},\n\ttitle={self.title},\n\tposterUrl={self.poster_url})\n"
 
     def __str__(self):
         return f"{self.title}"
